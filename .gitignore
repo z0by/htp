@@ -2,5 +2,5 @@
 *.log
 *.pdf
 *.xls
-*.pyc
+*.py[co]
 *.db
