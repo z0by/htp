@@ -25,7 +25,8 @@ class Person(Base):
     country = Column(String)
     hobby = Column(String)
 
-    def __init__(self, last_name, first_name, born_date, age, sex, status, job, country, street, hobby ):
+    def __init__(self, last_name, first_name, born_date, age, sex, status, job,
+                                                    country, street, hobby ):
         self.first_name = first_name
         self.last_name = last_name
         self.born_date  = born_date
@@ -38,8 +39,12 @@ class Person(Base):
         self.hobby = hobby
 
     def __repr__(self):
-	return ("Фамилия: {0}, Имя: {1}, Дата рождения: {2}, Возраст: {3}, Пол: {4}, Семейное положение: {5}, Работа: {6}, Страна: {7}, Адрес: {8}, Хобби: {9}".format(self.last_name.encode('utf-8'), self.first_name.encode('utf-8'), self.born_date.strftime("%Y-%m-%d"), self.age,
-          self.sex.encode('utf-8'), self.status.encode('utf-8'), self.job.encode('utf-8'), self.country.encode('utf-8'), self.street.encode('utf-8'), self.hobby.encode('utf-8') ))
+	return ("Фамилия: {0}, Имя: {1}, Дата рождения: {2}, Возраст: {3}, \
+            Пол: {4}, Семейное положение: {5}, Работа: {6}, Страна: {7}, Адрес:\
+            {8}, Хобби: {9}".format(self.last_name.encode('utf-8'),
+            self.first_name.encode('utf-8'), self.born_date.strftime("%Y-%m-%d"), self.age,
+            self.sex.encode('utf-8'), self.status.encode('utf-8'), self.job.encode('utf-8'),
+            self.country.encode('utf-8'), self.street.encode('utf-8'), self.hobby.encode('utf-8') ))
 
 
 def generate_sex(male_prcnt,female_prcnt, count):
@@ -55,8 +60,7 @@ def generate_sex(male_prcnt,female_prcnt, count):
     for i in  range(int((float(female_prcnt)/100.0)*count)):
 	_list.append(sex[1])
     if len(_list) < count:
-    
-	for _ in range(count - len(_list)):
+        for _ in range(count - len(_list)):
             _list.append(random.choice(sex))
     random.shuffle(_list)
     return _list
@@ -113,21 +117,17 @@ if __name__ == '__main__':
     if len(ages) != 2:
 	raise ValueError('Need two values through ":"')
     countries = namespace.countries.split(',')
-    
-    
     sex_list =  generate_sex(sex_prcnt[0],sex_prcnt[1], namespace.count)
-    
+
     if namespace.base:
 	session = greate_db_session()
-    
+
     for sex in sex_list:
 	born_date =  generate_date(ages[0],ages[1])
 	age = calculate_age(born_date)
 	job = get_random(data.JOBS)
 	street = get_random(data.STREET_NAMES)
-	
-	country  = random.choice(countries).decode('utf-8')
-	
+        country  = random.choice(countries).decode('utf-8')
 	hobby = get_random(data.HOBBIES)
 	if sex ==u"Мужской":
             first_name = get_random(data.FIRST_NAMES_MALE)
@@ -139,9 +139,9 @@ if __name__ == '__main__':
             status = get_random(data.FEMALE_STATUS)
 	user = Person(last_name, first_name, born_date, age, sex, status, job, country, street, hobby )
 	if  namespace.base:
-	    session.add(user)
+            session.add(user)
 	else:
-	    print user
+            print user
     if namespace.base:
 	session.commit()
 	session.close()
