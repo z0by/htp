@@ -40,9 +40,10 @@ def factorial(n):
     if n+1 == n:  # catch a value like 1e300
         raise OverflowError("n too large")
     result = 1
-    for x in xrange(1,int(n)+1):
+    for x in xrange(1, int(n)+1):
         result = x*result
     return result
+
 
 def factorial_recursive(n):
     """

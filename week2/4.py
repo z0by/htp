@@ -13,25 +13,27 @@ And tender churl mak'st waste in niggarding:
 Pity the world, or else this glutton be,
 To eat the world's due, by the grave and thee."""
 
+
 def tokinize(text):
-    REMOVE_WORDS = ['!',',','.','?','!',':']
+    REMOVE_WORDS = ['!', ',', '.', '?', '!', ':']
     words = text.split()
     new_words = []
     for word in words:
         word = word.lower()
-        for char in  REMOVE_WORDS:
-            word = word.replace(char,'')
+        for char in REMOVE_WORDS:
+            word = word.replace(char, '')
         if word is not '':
             new_words.append(word)
     return new_words
+
 
 def stat(text):
     _dict = {}
     for word in text:
         if _dict.get(word):
-            _dict[word]+=1
+            _dict[word] += 1
         else:
-            _dict[word]=1
+            _dict[word] = 1
     return _dict
 
 print stat(tokinize(TEXT))

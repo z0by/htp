@@ -26,7 +26,7 @@ class Person(Base):
     hobby = Column(String)
 
     def __init__(self, last_name, first_name, born_date, age, sex, status, job,
-                                                    country, street, hobby ):
+                 country, street, hobby ):
         self.first_name = first_name
         self.last_name = last_name
         self.born_date  = born_date
@@ -40,11 +40,13 @@ class Person(Base):
 
     def __repr__(self):
 	return ("Фамилия: {0}, Имя: {1}, Дата рождения: {2}, Возраст: {3}, \
-            Пол: {4}, Семейное положение: {5}, Работа: {6}, Страна: {7}, Адрес:\
-            {8}, Хобби: {9}".format(self.last_name.encode('utf-8'),
-            self.first_name.encode('utf-8'), self.born_date.strftime("%Y-%m-%d"), self.age,
-            self.sex.encode('utf-8'), self.status.encode('utf-8'), self.job.encode('utf-8'),
-            self.country.encode('utf-8'), self.street.encode('utf-8'), self.hobby.encode('utf-8') ))
+        Пол: {4}, Семейное положение: {5}, Работа: {6}, Страна: {7}, \
+        Адрес: {8}, Хобби: {9}".format(self.last_name.encode('utf-8'),
+        self.first_name.encode('utf-8'), self.born_date.strftime("%Y-%m-%d"), self.age,
+        self.sex.encode('utf-8'), self.status.encode('utf-8'),
+                                                 self.job.encode('utf-8'),
+        self.country.encode('utf-8'), self.street.encode('utf-8'),
+                                                 self.hobby.encode('utf-8') ))
 
 
 def generate_sex(male_prcnt,female_prcnt, count):
@@ -54,10 +56,10 @@ def generate_sex(male_prcnt,female_prcnt, count):
 
     if count == 1:
          return [random.choice(sex)]
-    for i in range(int((float(male_prcnt)/100.0)*count)):
+    for i in range(int((float(male_prcnt) / 100.0)*count)):
 
 	_list.append(sex[0])
-    for i in  range(int((float(female_prcnt)/100.0)*count)):
+    for i in  range(int((float(female_prcnt) / 100.0)*count)):
 	_list.append(sex[1])
     if len(_list) < count:
         for _ in range(count - len(_list)):
@@ -70,7 +72,7 @@ def generate_date(age_min,age_max):
     month = random.randint(1, 12)
     day = random.randint(1, 28)
     a = (today.month, today.day) < (month,day)
-    year = random.randint(today.year-int(age_max) -a  ,today.year - int(age_min) - a )
+    year = random.randint(today.year - int(age_max) - a  ,today.year - int(age_min) - a )
     birth_date = datetime.datetime(year, month, day)
     return birth_date
 
