@@ -10,20 +10,22 @@ from sqlalchemy import Table, Column, Integer, String, Date, MetaData, ForeignKe
 
 
 Base = declarative_base()
-class Person(Base):
 
+
+class Person(Base):
     __tablename__ = 'persons'
     id = Column(Integer, primary_key=True)
     last_name = Column(String)
     first_name = Column(String)
     born_date = Column(Date)
-    age =  Column(Integer)
+    age = Column(Integer)
     sex = Column(String)
     status = Column(String)
-    job =  Column(String)
+    job = Column(String)
     street = Column(String)
     country = Column(String)
     hobby = Column(String)
+
 
     def __init__(self, last_name, first_name, born_date, age, sex, status, job,
                  country, street, hobby ):
