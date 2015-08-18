@@ -1,0 +1,96 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Docstring Project</title>
+    <link rel="stylesheet" href="css/foundation.css" />
+    <script src="js/vendor/modernizr.js"></script>
+  </head>
+  <body>
+    
+    <div class="row">
+      <div class="large-12 columns">
+        <h1>Docstring from <i>{{ path }}</i> directory</h1>
+      </div>
+    </div>
+    
+ {% for module_dict in result_list %}
+    {% for module_source, module_list in module_dict.iteritems() %}
+
+      {% set module_docstring = module_list[0] %}
+      {% set class_dict_list = module_list[1] %}
+      {% set func_dict = module_list[2] %}
+    <div class="row">
+      <div class="large-8 medium-8 columns">
+        <h4><strong>Source code: </strong> <i>{{ module_source }} </i></h4>
+        {% if  module_docstring %}
+         <div class="callout panel">       
+                <p>{{ module_docstring }}</p>
+         </div>
+        {% endif %}
+        {% if  class_dict_list[0] %}
+          {% for class_dict in class_dict_list %}
+            {% for class_name, class_list in  class_dict.iteritems() %}
+
+            {% set class_docstring = class_list[0] %}
+            {% set method_dict_list = class_list[1] %}
+              <div class="row">
+                <div class="large-12 columns">
+                  <p><strong>Class </strong><i>{{ class_name }} </i></p>
+                  {% if class_docstring %}
+                     <div class="callout panel">
+                   <p>{{ class_docstring }}</p>
+                  </div>
+                  {% endif %}
+                </div>
+              </div>
+            {% if method_dict_list[0]%}
+             {% for method_dict in method_dict_list %}
+               {% for method_name, method_docstring in method_dict.iteritems()%}
+              <div class="row class_method">
+                <div class="large-12 columns">
+                 <p ><strong>Class method </strong><i> {{ class_name }}.{{ method_name }}</i></p>
+                  <div class="callout panel class_layer">
+                 <p>{{ method_docstring }}</p>
+                  </div>
+                </div>
+              </div>
+                {%endfor%}
+                    {% endfor  %}
+                  {% endif %}
+                {% endfor %}
+          {% endfor %}
+      {% endif %}
+
+        {% if  func_dict %}
+            {% for func_name, func_docstring in func_dict.iteritems() %}
+        <div class="row">
+          <div class="large-12 columns">
+           <p><strong>Function  </strong><i>{{ func_name }}</i></p>
+            <div class="callout panel class_layer">
+           
+              <p>       {{ func_docstring }}</p>
+            </div>
+          </div>
+        </div>
+          {% endfor %}
+        {% endif %}
+        <hr />
+      </div>     
+
+    </div>
+
+       {% endfor %}
+  {% endfor %}
+    <div class="row">
+    <p>time to render - {{t_result}} sec</p>
+    <p>version 0.1.0<p>
+    </div>
+    <script src="js/vendor/jquery.js"></script>
+    <script src="js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>
