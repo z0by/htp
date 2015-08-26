@@ -10,6 +10,7 @@ import codecs
 
 def get_docstring(module):
     """
+    Function take ast object and return  docstring from it
     """
     docstring = ast.get_docstring(module)
     if docstring:
@@ -19,12 +20,14 @@ def get_docstring(module):
 
 def object_list(module, node_type):
     """
+    Function generate  nodes comprehensions from module abstract syntax tree(ast) for given nody_type
     """
     return [node for node in module.body if isinstance(node, node_type)]
 
 
 def timer(f):
     """
+    Decorator for counting render time
     """
     def wrapper(*args, **kwargs):
         t_start = time.time()
@@ -36,18 +39,10 @@ def timer(f):
     return wrapper
 
 
-def decode_utf8(inner):
-    """
-    """
-    def func(self, *args, **kwargs):
-        args = [x.decode('utf8') for x in args]
-        kwargs = dict((k, v.decode('utf8')) for k, v in kwargs.items())
-        return inner(self, *args, **kwargs)
-    return func
-
 @timer
 def render_template(*args, **kwargs):
     """
+    Function render jinja template and return html object
     """
     templateLoader = jinja2.FileSystemLoader(searchpath=".")
     templateEnv = jinja2.Environment(loader=templateLoader)
@@ -57,18 +52,21 @@ def render_template(*args, **kwargs):
     return outputhtml
 
 
-def write_html(render):
+def write_html(html):
     """
+    Function write html file
     """
-    with codecs.open("index.html", "wb",  "utf-8") as fh:
-        fh.write(render)
+    with codecs.open("index.html", "wb",  "utf-8") as f:
+        f.write(html)
 
 
 def run(path):
     """
+    Main fucntion. 
+    Traverse directory in specified path argument and return list of dictionaries.
+    Each dictionaries has the following form:
+    {'Module filepath':[ Module docstring, { Class name:[Class docstring,[{Class method name:Class method docstrong}]],[{Function name:Function docstring}]}]}     
     """
-    _dict = {}
-    _list = []
     _module_list = []
     for root, dirs, files in os.walk(path):
         for file in files:
@@ -87,7 +85,6 @@ def run(path):
                     pass
                 module_docstring = get_docstring(module)
                 class_definitions = object_list(module, ast.ClassDef)
-
                 for class_def in class_definitions:
                     method_definitions = object_list(class_def,
                                                      ast.FunctionDef)
